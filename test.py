@@ -3,7 +3,7 @@ from question_builder import QuestionBuilder
 from openai.types.chat.chat_completion import ChatCompletion
 import json
 
-class TestQuestionBuilder(unittest.TestCase):
+class TestAPIResponse(unittest.TestCase):
     def setUp(self):
         question_builder = QuestionBuilder()
         self.response = question_builder.generate()
@@ -14,6 +14,9 @@ class TestQuestionBuilder(unittest.TestCase):
     def test_is_valid_json(self):
         json_string = self.response.choices[0].message.content
         self.assertTrue(json.loads(json_string), "should be valid json format")
+
+class TestNonAPIFunctions(unittest.TestCase):
+    pass
 
 if __name__ == "__main__":
     unittest.main()
