@@ -1,2 +1,3 @@
 class QuestionBuilder():
-    pass
+    def generate(self):
+        pass
