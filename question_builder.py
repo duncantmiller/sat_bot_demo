@@ -81,14 +81,15 @@ class QuestionBuilder():
 
     def next_category(self):
         """randomly selects a category, ensures that 5 questions are generated for each category"""
-        if self.total_questions_generated() != 15:
-            category = self.pick_category()
-            if getattr(self, category) == 5:
-                return self.next_category()
-            else:
-                current_count = getattr(self, category)
-                setattr(self, category, current_count + 1)
-                return category
+        if self.total_questions_generated() >= 15:
+            raise Exception("All questions have been generated.")
+        category = self.pick_category()
+        if getattr(self, category) == 5:
+            return self.next_category()
+        else:
+            current_count = getattr(self, category)
+            setattr(self, category, current_count + 1)
+            return category
 
     def pick_category(self):
         """random category selection"""
