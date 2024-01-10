@@ -1,6 +1,7 @@
 from openai import OpenAI
 from dotenv import load_dotenv
 import random
+import json
 
 load_dotenv()
 
@@ -14,7 +15,18 @@ class QuestionBuilder():
 
     def generate_all_questions(self):
         for _ in range(15):
-            self.questions += self.generate(self.next_category())
+            category = self.next_category()
+            json_object = self.generate_valid_json_question(category)
+            self.questions.append(json_object)
+
+    def generate_valid_json_question(self, category):
+        response = self.generate(category)
+        json_string = response.choices[0].message.content
+        try:
+            json_object = json.loads(json_string)
+            return json_object
+        except json.JSONDecodeError:
+            self.generate_valid_json_question(category)
 
     def rubric_for(self, category):
         if category == "vocabulary":
