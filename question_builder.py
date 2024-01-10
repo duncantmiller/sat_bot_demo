@@ -10,9 +10,12 @@ class QuestionBuilder():
             messages=[
                 {
                     "role": "user",
-                    "content": "foo"
+                    "content": self.prompt()
                 }
             ],
             model="gpt-3.5-turbo"
         )
         return response
+
+    def prompt(self):
+        return "foo"
