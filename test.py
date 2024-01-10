@@ -39,6 +39,7 @@ class TestGenerateAll(unittest.TestCase):
         self.assertEqual(question_builder.math, 5, "should be 5")
         self.assertEqual(question_builder.reading, 5, "should be 5")
         self.assertEqual(question_builder.vocabulary, 5, "should be 5")
+        self.assertEqual(len(question_builder.questions), 15, "should generate 15 questions")
 
 if __name__ == "__main__":
     unittest.main()
