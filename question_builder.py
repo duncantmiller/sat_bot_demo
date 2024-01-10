@@ -42,11 +42,20 @@ class QuestionBuilder():
         """returns rubric instructions for each category"""
         if category == "vocabulary":
             return """
-                - Select words that are challenging yet appropriate for high school students preparing for the SAT.
+                - Select words that are challenging yet appropriate for high school students
+                  preparing for the SAT.
                 - Include a mix of word types (nouns, verbs, adjectives, etc.) and themes.
-                - ...
             """
-
+        elif category == "reading":
+            return """
+                Include diverse passages, test comprehension and inference, use context-based
+                questions, and offer distinct, logical answer choices.
+            """
+        elif category == "math":
+            return """
+                Use real-world problems, ensure clarity, mix difficulty, include diagrams,
+                test various math topics, and provide clear, plausible answer choices.
+            """
     def total_questions_generated(self):
         """returns a count of the total questions"""
         return self.math + self.reading + self.vocabulary
