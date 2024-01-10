@@ -16,7 +16,12 @@ class TestAPIResponse(unittest.TestCase):
         self.assertTrue(json.loads(json_string), "should be valid json format")
 
 class TestNonAPIFunctions(unittest.TestCase):
-    pass
+    def setUp(self):
+        self.question_builder = QuestionBuilder()
+
+    def test_pick_category(self):
+        category = self.question_builder.pick_category()
+        self.assertIn(category, ["math", "reading", "vocabulary"])
 
 if __name__ == "__main__":
     unittest.main()
