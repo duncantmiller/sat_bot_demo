@@ -5,9 +5,11 @@ import random
 load_dotenv()
 
 class QuestionBuilder():
+    def __init__(self):
+        self.categories = ["math", "reading", "vocabulary"]
+
     def pick_category(self):
-        categories = ["math", "reading", "vocabulary"]
-        return random.choice(categories)
+        return random.choice(self.categories)
 
     def generate(self):
         client = OpenAI()
