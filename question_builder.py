@@ -1,9 +1,14 @@
 from openai import OpenAI
 from dotenv import load_dotenv
+import random
 
 load_dotenv()
 
 class QuestionBuilder():
+    def pick_category(self):
+        categories = ["math", "reading", "vocabulary"]
+        return random.choice(categories)
+
     def generate(self):
         client = OpenAI()
         response = client.chat.completions.create(
