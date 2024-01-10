@@ -13,11 +13,15 @@ class QuestionBuilder():
         self.vocabulary = 0
         self.questions = []
 
+    def send_ui_client(self, json_object):
+        """this is just a dummy method that would include the logic to send the json to the ui"""
+
     def generate_all_questions(self):
         for _ in range(15):
             category = self.next_category()
             json_object = self.generate_valid_json_question(category)
             self.questions.append(json_object)
+            self.send_ui_client(json_object)
 
     def generate_valid_json_question(self, category):
         response = self.generate(category)
