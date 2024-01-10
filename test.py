@@ -9,7 +9,7 @@ class TestQuestionBuilder(unittest.TestCase):
         self.response = question_builder.generate()
 
     def test_generate(self):
-        self.assertIsInstance(self.response, ChatCompletion)
+        self.assertIsInstance(self.response, ChatCompletion, "should be a OpenAI object")
 
     def test_is_valid_json(self):
         json_string = self.response.choices[0].message.content
