@@ -11,14 +11,18 @@ class QuestionBuilder():
         self.reading = 0
         self.vocabulary = 0
 
+    def total_questions(self):
+        return self.math + self.reading + self.vocabulary
+
     def next_category(self):
-        category = self.pick_category()
-        if getattr(self, category) == 5:
-            self.next_category()
-        else:
-            current_count = getattr(self, category)
-            setattr(self, category, current_count + 1)
-            return category
+        if self.total_questions() != 15:
+            category = self.pick_category()
+            if getattr(self, category) == 5:
+                self.next_category()
+            else:
+                current_count = getattr(self, category)
+                setattr(self, category, current_count + 1)
+                return category
 
     def pick_category(self):
         return random.choice(self.categories)
