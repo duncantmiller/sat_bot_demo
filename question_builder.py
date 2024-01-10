@@ -17,6 +17,7 @@ class QuestionBuilder():
         """this is just a dummy method that would include the logic to send the json to the ui"""
 
     def generate_all_questions(self):
+        """creates 15 SAT questions in valid json format"""
         for _ in range(15):
             category = self.next_category()
             json_object = self.generate_valid_json_question(category)
@@ -24,6 +25,11 @@ class QuestionBuilder():
             self.send_ui_client(json_object)
 
     def generate_valid_json_question(self, category):
+        """
+           ensures that the response is valid json, or recursively calls another generation
+           in practice we would want to have some type of max_attempts so this does not
+           continue infinitely and return an error if the max attempts are reached
+        """
         response = self.generate(category)
         json_string = response.choices[0].message.content
         try:
@@ -33,6 +39,7 @@ class QuestionBuilder():
             self.generate_valid_json_question(category)
 
     def rubric_for(self, category):
+        """returns rubric instructions for each category"""
         if category == "vocabulary":
             return """
                 - Select words that are challenging yet appropriate for high school students preparing for the SAT.
@@ -41,9 +48,11 @@ class QuestionBuilder():
             """
 
     def total_questions_generated(self):
+        """returns a count of the total questions"""
         return self.math + self.reading + self.vocabulary
 
     def next_category(self):
+        """randomly selects a category, ensures that 5 questions are generated for each category"""
         if self.total_questions_generated() != 15:
             category = self.pick_category()
             if getattr(self, category) == 5:
@@ -54,9 +63,14 @@ class QuestionBuilder():
                 return category
 
     def pick_category(self):
+        """random category selection"""
         return random.choice(self.categories)
 
     def generate(self, category):
+        """
+           calls the openai api with the detailed prompt
+           the AI returns a valid json object for one question in that category
+        """
         client = OpenAI()
         response = client.chat.completions.create(
             messages=[
@@ -70,6 +84,7 @@ class QuestionBuilder():
         return response
 
     def prompt(self, category):
+        """the detailed prompt we send to the ai, customized for the specific category"""
         prompt_text = f""""
             You are an expert tutor with excellent knowledge of the Scholastic Aptitude Test (SAT). Your job is to generate sample {category} test questions for a student who is practicing for the {category} section of the SAT. Each question should have four possible answer choices. Only one choice should be correct and the other three choices should be incorrect. Mix up the order of the correct choice in each question so it appears in a different location in the sequence each time. Each response should be in valid json format. Please include the following key value pairs:
             <question_number>:<{self.total_questions_generated()}>
