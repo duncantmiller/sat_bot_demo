@@ -14,7 +14,7 @@ class QuestionBuilder():
 
     def generate_all_questions(self):
         for _ in range(15):
-            self.questions += self.generate()
+            self.questions += self.generate(self.next_category())
 
     def rubric_for(self, category):
         if category == "vocabulary":
@@ -40,21 +40,20 @@ class QuestionBuilder():
     def pick_category(self):
         return random.choice(self.categories)
 
-    def generate(self):
+    def generate(self, category):
         client = OpenAI()
         response = client.chat.completions.create(
             messages=[
                 {
                     "role": "user",
-                    "content": self.prompt()
+                    "content": self.prompt(category)
                 }
             ],
             model="gpt-3.5-turbo"
         )
         return response
 
-    def prompt(self):
-        category = self.next_category()
+    def prompt(self, category):
         prompt_text = f""""
             You are an expert tutor with excellent knowledge of the Scholastic Aptitude Test (SAT). Your job is to generate sample {category} test questions for a student who is practicing for the {category} section of the SAT. Each question should have four possible answer choices. Only one choice should be correct and the other three choices should be incorrect. Mix up the order of the correct choice in each question so it appears in a different location in the sequence each time. Each response should be in valid json format. Please include the following key value pairs:
             <question_number>:<{self.total_questions_generated()}>
