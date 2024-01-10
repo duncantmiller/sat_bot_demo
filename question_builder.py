@@ -11,11 +11,11 @@ class QuestionBuilder():
         self.reading = 0
         self.vocabulary = 0
 
-    def total_questions(self):
+    def total_questions_generated(self):
         return self.math + self.reading + self.vocabulary
 
     def next_category(self):
-        if self.total_questions() != 15:
+        if self.total_questions_generated() != 15:
             category = self.pick_category()
             if getattr(self, category) == 5:
                 self.next_category()
