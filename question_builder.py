@@ -6,8 +6,12 @@ import json
 load_dotenv()
 
 class QuestionBuilder():
+    MATH = "math"
+    READING = "reading"
+    VOCABULARY = "vocabulary"
+
     def __init__(self):
-        self.categories = ["math", "reading", "vocabulary"]
+        self.categories = [QuestionBuilder.MATH, QuestionBuilder.READING, QuestionBuilder.VOCABULARY]
         self.math = 0
         self.reading = 0
         self.vocabulary = 0
@@ -40,22 +44,37 @@ class QuestionBuilder():
 
     def rubric_for(self, category):
         """returns rubric instructions for each category"""
-        if category == "vocabulary":
-            return """
-                - Select words that are challenging yet appropriate for high school students
-                  preparing for the SAT.
-                - Include a mix of word types (nouns, verbs, adjectives, etc.) and themes.
-            """
-        elif category == "reading":
-            return """
-                Include diverse passages, test comprehension and inference, use context-based
-                questions, and offer distinct, logical answer choices.
-            """
-        elif category == "math":
-            return """
-                Use real-world problems, ensure clarity, mix difficulty, include diagrams,
-                test various math topics, and provide clear, plausible answer choices.
-            """
+        if category == QuestionBuilder.VOCABULARY:
+            return self.vocabulary_rubric()
+        elif category == QuestionBuilder.READING:
+            return self.reading_rubric()
+        elif category == QuestionBuilder.MATH:
+            return self.math_rubric()
+        else:
+            raise ValueError(f"Unknown category: {category}")
+
+    def vocabulary_rubric(self):
+        """a placeholder rubric for vocabulary questions"""
+        return (
+            "- Select words that are challenging yet appropriate for high school students "
+            "preparing for the SAT.\n"
+            "- Include a mix of word types (nouns, verbs, adjectives, etc.) and themes."
+        )
+
+    def reading_rubric(self):
+        """a placeholder rubric for reading questions"""
+        return (
+            "Include diverse passages, test comprehension and inference, use context-based "
+            "questions, and offer distinct, logical answer choices."
+        )
+
+    def math_rubric(self):
+        """a placeholder rubric for math questions"""
+        return (
+            "Use real-world problems, ensure clarity, mix difficulty, include diagrams, "
+            "test various math topics, and provide clear, plausible answer choices."
+        )
+
     def total_questions_generated(self):
         """returns a count of the total questions"""
         return self.math + self.reading + self.vocabulary
@@ -65,7 +84,7 @@ class QuestionBuilder():
         if self.total_questions_generated() != 15:
             category = self.pick_category()
             if getattr(self, category) == 5:
-                self.next_category()
+                return self.next_category()
             else:
                 current_count = getattr(self, category)
                 setattr(self, category, current_count + 1)
