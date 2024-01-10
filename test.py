@@ -31,5 +31,14 @@ class TestNonAPIFunctions(unittest.TestCase):
         self.assertEqual(self.question_builder.reading, 5, "should be 5")
         self.assertEqual(self.question_builder.vocabulary, 5, "should be 5")
 
+class TestGenerateAll(unittest.TestCase):
+    def test_generate_all_questions(self):
+        question_builder = QuestionBuilder()
+        question_builder.generate_all_questions()
+
+        self.assertEqual(question_builder.math, 5, "should be 5")
+        self.assertEqual(question_builder.reading, 5, "should be 5")
+        self.assertEqual(question_builder.vocabulary, 5, "should be 5")
+
 if __name__ == "__main__":
     unittest.main()

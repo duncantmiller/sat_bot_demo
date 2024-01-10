@@ -52,7 +52,7 @@ class QuestionBuilder():
         category = self.next_category()
         prompt_text = f""""
             You are an expert tutor with excellent knowledge of the Scholastic Aptitude Test (SAT). Your job is to generate sample {category} test questions for a student who is practicing for the {category} section of the SAT. Each question should have four possible answer choices. Only one choice should be correct and the other three choices should be incorrect. Mix up the order of the correct choice in each question so it appears in a different location in the sequence each time. Each response should be in valid json format. Please include the following key value pairs:
-            <question_number>:<question number goes here>
+            <question_number>:<{self.total_questions_generated()}>
             <category_name>:<{category}>
             <question_text>:<question text goes here>
             <answer_choices>:<answer choices go here>
@@ -67,7 +67,7 @@ class QuestionBuilder():
             Here is an example of valid json to you might respond with for a sample question in the math category:
 
             {{
-                "question_number":1,
+                "question_number":{self.total_questions_generated()},
                 "category_name":"math",
                 "question_text":"What is 1 + 1 equal to?",
                 "answer_choices": {{
