@@ -8,6 +8,10 @@ class QuestionBuilder():
     def __init__(self):
         self.categories = ["math", "reading", "vocabulary"]
 
+    def next_category(self):
+        category = self.pick_category()
+        return category
+
     def pick_category(self):
         return random.choice(self.categories)
 
