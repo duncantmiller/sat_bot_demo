@@ -24,13 +24,12 @@ class TestNonAPIFunctions(unittest.TestCase):
         self.assertIn(category, self.question_builder.categories, "should be one of the categories")
 
     def test_next_category(self):
-        for _ in range(15):
+        for _ in range(16):
             self.question_builder.next_category()
 
         self.assertEqual(self.question_builder.math, 5, "should be 5")
         self.assertEqual(self.question_builder.reading, 5, "should be 5")
         self.assertEqual(self.question_builder.vocabulary, 5, "should be 5")
-
 
 if __name__ == "__main__":
     unittest.main()
