@@ -21,7 +21,7 @@ class TestNonAPIFunctions(unittest.TestCase):
 
     def test_pick_category(self):
         category = self.question_builder.pick_category()
-        self.assertIn(category, ["math", "reading", "vocabulary"])
+        self.assertIn(category, self.question_builder.categories, "should be one of the categories")
 
 if __name__ == "__main__":
     unittest.main()
