@@ -59,7 +59,11 @@ class QuestionBuilder():
             writing_questions = 1
             Keep going until you have a value of 5 questions in each category for a total of 15 sample questions.
 
-            Interpret a word or phrase use in the setting of a larger passage
+            When you are generating sample vocabulary questions, please follow this rubric:
+
+            - Select words that are challenging yet appropriate for high school students preparing for the SAT.
+            - Include a mix of word types (nouns, verbs, adjectives, etc.) and themes.
+            - ...
 
             Let's think step by step:
             1. first pick a category randomly from either math, reading or vocabulary
