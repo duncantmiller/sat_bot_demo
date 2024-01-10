@@ -11,6 +11,14 @@ class QuestionBuilder():
         self.reading = 0
         self.vocabulary = 0
 
+    def rubric_for(self, category):
+        if category == "vocabulary":
+            return """
+                - Select words that are challenging yet appropriate for high school students preparing for the SAT.
+                - Include a mix of word types (nouns, verbs, adjectives, etc.) and themes.
+                - ...
+            """
+
     def total_questions_generated(self):
         return self.math + self.reading + self.vocabulary
 
@@ -77,9 +85,7 @@ class QuestionBuilder():
 
             When you are generating sample {category} questions, please follow this rubric:
 
-            - Select words that are challenging yet appropriate for high school students preparing for the SAT.
-            - Include a mix of word types (nouns, verbs, adjectives, etc.) and themes.
-            - ...
+            {self.rubric_for(category)}
 
             Let's think step by step:
             1. use your expert SAT knowledge to generate a sample {category} question with 4 potential answer choices. Three choices should be incorrect and one choice should be correct.
