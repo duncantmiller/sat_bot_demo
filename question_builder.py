@@ -10,6 +10,11 @@ class QuestionBuilder():
         self.math = 0
         self.reading = 0
         self.vocabulary = 0
+        self.questions = []
+
+    def generate_all_questions(self):
+        for _ in range(15):
+            self.questions += self.generate()
 
     def rubric_for(self, category):
         if category == "vocabulary":
