@@ -4,24 +4,25 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class QuestionBuilder():
-    def generate(self):
+    def generate(self, theme_string):
         client = OpenAI()
         response = client.chat.completions.create(
             messages=[
                 {
                     "role": "user",
-                    "content": self.prompt()
+                    "content": self.prompt(theme_string)
                 }
             ],
             model="gpt-3.5-turbo"
         )
         return response
 
-    def prompt(self):
+    def prompt(self, theme_string):
         prompt_text = (
-            "You are an expert tutor with excellent knowledge of the Scholastic Aptitude "
-            "Test (SAT). Your job is to generate sample test questions for a student who is "
-            "practicing for the SAT. There are three categories of questions to generate. "
+            "You are an expert tutor with excellent knowledge of the Scholastic Aptitude Test "
+            " SAT). Your job is to generate sample test questions for a student who is practicing "
+            f"for the SAT. The theme for these questions is: {theme_string}, please use this theme "
+            "when generating questions. There are three categories of questions to generate. "
             "Your task will be to generate five sample questions for each category, for a "
             "total of fifteen questions. Each question should have four possible answer "
             "choices. Only one choice should be correct and the other three choices should "
@@ -78,8 +79,8 @@ class QuestionBuilder():
             "Let's think step by step:\n"
             "1. first pick a category randomly from either math, reading or vocabulary\n"
             "2. then use your expert SAT knowledge to generate a sample question for that "
-            "category with 4 potential answer choices. Three choices should be incorrect and "
-            "one choice should be correct.\n"
+            "category with 4 potential answer choices. The question should follow the theme: "
+            f"{theme_string}. Three choices should be incorrect and one choice should be correct.\n"
             "3. generate a valid json object in the format provided which includes the sample "
             "question details\n"
             "4. verify you created valid json, if it is invalid fix it\n"
