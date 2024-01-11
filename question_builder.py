@@ -20,27 +20,27 @@ class QuestionBuilder():
     def send_ui_client(self, json_object):
         """this is just a dummy method that would include the logic to send the json to the ui"""
 
-    def generate_all_questions(self):
+    def generate_all_questions(self, theme_string):
         """creates 15 SAT questions in valid json format"""
         while self.total_questions_generated() < 15:
             category = self.next_category()
-            json_object = self.generate_valid_json_question(category)
+            json_object = self.generate_valid_json_question(category, theme_string)
             self.questions.append(json_object)
             self.send_ui_client(json_object)
 
-    def generate_valid_json_question(self, category):
+    def generate_valid_json_question(self, category, theme_string):
         """
            ensures that the response is valid json, or recursively calls another generation
            in practice we would want to have some type of max_attempts so this does not
            continue infinitely and return an error if the max attempts are reached
         """
-        response = self.generate(category)
+        response = self.generate(category, theme_string)
         json_string = response.choices[0].message.content
         try:
             json_object = json.loads(json_string)
             return json_object
         except json.JSONDecodeError:
-            self.generate_valid_json_question(category)
+            self.generate_valid_json_question(category, theme_string)
 
     def rubric_for(self, category):
         """returns rubric instructions for each category"""
@@ -98,7 +98,7 @@ class QuestionBuilder():
         """random category selection"""
         return random.choice(self.categories)
 
-    def generate(self, category):
+    def generate(self, category, theme_string):
         """
            calls the openai api with the detailed prompt
            the AI returns a valid json object for one question in that category
@@ -108,19 +108,21 @@ class QuestionBuilder():
             messages=[
                 {
                     "role": "user",
-                    "content": self.prompt(category)
+                    "content": self.prompt(category, theme_string)
                 }
             ],
             model="gpt-3.5-turbo"
         )
         return response
 
-    def prompt(self, category):
+    def prompt(self, category, theme_string):
         """the detailed prompt we send to the ai, customized for the specific category"""
         prompt_text = (
             f"You are an expert tutor with excellent knowledge of the Scholastic Aptitude Test (SAT). "
-            f"Your job is to generate sample {category} test questions for a student who is practicing for "
-            f"the {category} section of the SAT. Each question should have four possible answer choices. "
+            f"Your job is to generate sample {category} test questions for a student who is practicing "
+            f"for the {category} section of the SAT. The theme for these questions is: "
+            f"{theme_string}, please use this theme when generating questions. Each question you "
+            f"generate should have exactly four possible answer choices. "
             f"Only one choice should be correct and the other three choices should be incorrect. Mix up "
             f"the order of the correct choice in each question so it appears in a different location in "
             f"the sequence each time. Each response should be in valid json format. Please include the "
@@ -149,14 +151,15 @@ class QuestionBuilder():
             f"    }},\n"
             f"    'correct_choice':'choice_4'\n"
             f"}}\n\n"
-            f"Don't actually use this sample question, generate your own but use this format.\n\n"
+            f"Don't actually use this example question, generate your own but use this format.\n\n"
             f"Please double check the json format to ensure it is valid json before responding with the "
             f"sample question. If it is invalid, fix it before responding.\n\n"
-            f"When you are generating sample {category} questions, please follow this rubric:\n\n"
+            f"When you are generating the sample {category} question, please follow this rubric:\n\n"
             f"{self.rubric_for(category)}\n\n"
             f"Let's think step by step:\n"
             f"1. use your expert SAT knowledge to generate a sample {category} question with 4 potential "
-            f"answer choices. Three choices should be incorrect and one choice should be correct.\n"
+            f"answer choices. The question should follow the theme: {theme_string}."
+            f"Three choices should be incorrect and one choice should be correct.\n"
             f"2. generate a valid json object in the format provided which includes the sample question "
             f"details\n"
             f"3. verify you created valid json, if it is invalid fix it\n"
