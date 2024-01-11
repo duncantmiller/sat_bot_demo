@@ -6,7 +6,7 @@ import json
 class TestAPIResponse(unittest.TestCase):
     def setUp(self):
         question_builder = QuestionBuilder()
-        self.response = question_builder.generate("math")
+        self.response = question_builder.generate(category="math", theme_string="hard questions")
 
     def test_generate(self):
         self.assertIsInstance(self.response, ChatCompletion, "should be a OpenAI object")
@@ -42,7 +42,7 @@ class TestNonAPIFunctions(unittest.TestCase):
 class TestGenerateAll(unittest.TestCase):
     def test_generate_all_questions(self):
         question_builder = QuestionBuilder()
-        question_builder.generate_all_questions()
+        question_builder.generate_all_questions(theme_string="hard questions")
 
         self.assertEqual(question_builder.math, 5, "should be 5")
         self.assertEqual(question_builder.reading, 5, "should be 5")
