@@ -56,7 +56,7 @@ class QuestionBuilder():
             "    },\n"
             "    \"correct_choice\":\"choice_4\"\n"
             "}\n\n"
-            "Don't actually use this sample question, generate your own but use this format.\n\n"
+            "Don't actually use this example question, generate your own but use this format.\n\n"
             "Please double check the json format to ensure it is valid json before responding "
             "with the sample question. If it is invalid, fix it before responding. Keep track "
             "of three variables math_questions, reading_questions, and vocabulary_questions. "
