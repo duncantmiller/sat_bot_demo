@@ -6,7 +6,7 @@ import json
 class TestQuestionBuilder(unittest.TestCase):
     def setUp(self):
         question_builder = QuestionBuilder()
-        self.response = question_builder.generate()
+        self.response = question_builder.generate("hard questions")
 
     def test_generate(self):
         self.assertIsInstance(self.response, ChatCompletion, "should be a OpenAI object")
