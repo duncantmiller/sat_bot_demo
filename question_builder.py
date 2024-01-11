@@ -22,7 +22,7 @@ class QuestionBuilder():
 
     def generate_all_questions(self):
         """creates 15 SAT questions in valid json format"""
-        for _ in range(15):
+        while self.total_questions_generated() < 15:
             category = self.next_category()
             json_object = self.generate_valid_json_question(category)
             self.questions.append(json_object)
@@ -83,13 +83,16 @@ class QuestionBuilder():
         """randomly selects a category, ensures that 5 questions are generated for each category"""
         if self.total_questions_generated() >= 15:
             raise Exception("All questions have been generated.")
-        category = self.pick_category()
-        if getattr(self, category) == 5:
-            return self.next_category()
-        else:
-            current_count = getattr(self, category)
-            setattr(self, category, current_count + 1)
-            return category
+        while True:
+            category = self.pick_category()
+            if getattr(self, category) < 5:
+                self.increment_count(category)
+                return category
+
+    def increment_count(self, category):
+        """adds one to the count attribute for the category"""
+        current_count = getattr(self, category)
+        setattr(self, category, current_count + 1)
 
     def pick_category(self):
         """random category selection"""

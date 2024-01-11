@@ -24,12 +24,20 @@ class TestNonAPIFunctions(unittest.TestCase):
         self.assertIn(category, self.question_builder.categories, "should be one of the categories")
 
     def test_next_category(self):
-        for _ in range(16):
+        for _ in range(15):
             self.question_builder.next_category()
 
         self.assertEqual(self.question_builder.math, 5, "should be 5")
         self.assertEqual(self.question_builder.reading, 5, "should be 5")
         self.assertEqual(self.question_builder.vocabulary, 5, "should be 5")
+
+    def test_next_category_raises_exception(self):
+        builder = QuestionBuilder()
+        builder.math = 5
+        builder.reading = 5
+        builder.vocabulary = 5
+        with self.assertRaises(Exception) as context:
+            builder.next_category()
 
 class TestGenerateAll(unittest.TestCase):
     def test_generate_all_questions(self):
