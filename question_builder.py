@@ -117,48 +117,50 @@ class QuestionBuilder():
 
     def prompt(self, category):
         """the detailed prompt we send to the ai, customized for the specific category"""
-        prompt_text = f""""
-            You are an expert tutor with excellent knowledge of the Scholastic Aptitude Test (SAT). Your job is to generate sample {category} test questions for a student who is practicing for the {category} section of the SAT. Each question should have four possible answer choices. Only one choice should be correct and the other three choices should be incorrect. Mix up the order of the correct choice in each question so it appears in a different location in the sequence each time. Each response should be in valid json format. Please include the following key value pairs:
-            <question_number>:<{self.total_questions_generated()}>
-            <category_name>:<{category}>
-            <question_text>:<question text goes here>
-            <answer_choices>:<answer choices go here>
-            <correct_choice>:<the key of the correct choice goes here>
-
-            The format of the answer choices should be:
-                <choice_1>:<choice one text goes here>
-                <choice_2>:<choice two text goes here>
-                <choice_3>:<choice three text goes here>
-                <choice_4>:<choice four text goes here>
-
-            Here is an example of valid json to you might respond with for a sample question in the math category:
-
-            {{
-                "question_number":{self.total_questions_generated()},
-                "category_name":"math",
-                "question_text":"What is 1 + 1 equal to?",
-                "answer_choices": {{
-                    "choice_1": "1",
-                    "choice_2": "7",
-                    "choice_3": "2",
-                    "choice_4": "0"
-                }},
-                "correct_choice":"choice_4"
-            }}
-
-            Don't actually use this sample question, generate your own but use this format.
-
-            Please double check the json format to ensure it is valid json before responding with the sample question. If it is invalid, fix it before responding.
-
-            When you are generating sample {category} questions, please follow this rubric:
-
-            {self.rubric_for(category)}
-
-            Let's think step by step:
-            1. use your expert SAT knowledge to generate a sample {category} question with 4 potential answer choices. Three choices should be incorrect and one choice should be correct.
-            2. generate a valid json object in the format provided which includes the sample question details
-            3. verify you created valid json, if it is invalid fix it
-            4. respond with the valid json object only
-        """
+        prompt_text = (
+            f"You are an expert tutor with excellent knowledge of the Scholastic Aptitude Test (SAT). "
+            f"Your job is to generate sample {category} test questions for a student who is practicing for "
+            f"the {category} section of the SAT. Each question should have four possible answer choices. "
+            f"Only one choice should be correct and the other three choices should be incorrect. Mix up "
+            f"the order of the correct choice in each question so it appears in a different location in "
+            f"the sequence each time. Each response should be in valid json format. Please include the "
+            f"following key value pairs:\n"
+            f"<question_number>:<{self.total_questions_generated()}>\n"
+            f"<category_name>:<{category}>\n"
+            f"<question_text>:<question text goes here>\n"
+            f"<answer_choices>:<answer choices go here>\n"
+            f"<correct_choice>:<the key of the correct choice goes here>\n\n"
+            f"The format of the answer choices should be:\n"
+            f"    <choice_1>:<choice one text goes here>\n"
+            f"    <choice_2>:<choice two text goes here>\n"
+            f"    <choice_3>:<choice three text goes here>\n"
+            f"    <choice_4>:<choice four text goes here>\n\n"
+            f"Here is an example of valid json to you might respond with for a sample question in the "
+            f"math category:\n\n"
+            f"{{"
+            f"    'question_number':{self.total_questions_generated()},\n"
+            f"    'category_name':'math',\n"
+            f"    'question_text':'What is 1 + 1 equal to?',\n"
+            f"    'answer_choices': {{\n"
+            f"        'choice_1': '1',\n"
+            f"        'choice_2': '7',\n"
+            f"        'choice_3': '2',\n"
+            f"        'choice_4': '0'\n"
+            f"    }},\n"
+            f"    'correct_choice':'choice_4'\n"
+            f"}}\n\n"
+            f"Don't actually use this sample question, generate your own but use this format.\n\n"
+            f"Please double check the json format to ensure it is valid json before responding with the "
+            f"sample question. If it is invalid, fix it before responding.\n\n"
+            f"When you are generating sample {category} questions, please follow this rubric:\n\n"
+            f"{self.rubric_for(category)}\n\n"
+            f"Let's think step by step:\n"
+            f"1. use your expert SAT knowledge to generate a sample {category} question with 4 potential "
+            f"answer choices. Three choices should be incorrect and one choice should be correct.\n"
+            f"2. generate a valid json object in the format provided which includes the sample question "
+            f"details\n"
+            f"3. verify you created valid json, if it is invalid fix it\n"
+            f"4. respond with the valid json object only"
+        )
 
         return prompt_text
